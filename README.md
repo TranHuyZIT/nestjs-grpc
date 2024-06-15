@@ -26,6 +26,13 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Generate Types from Proto
+
+```bash
+protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./ --ts_pr
+oto_opt=nestJs=true ./proto/auth.proto
+```
+
 ## Installation
 
 ```bash
