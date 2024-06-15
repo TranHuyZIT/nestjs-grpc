@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package auth;
+
+service UserService {
+    rpc CreateUser(CreateUserDto) returns (User) {}
+    rpc FindAllUsers (Empty) returns (UserList) {}
+    rpc FindOneUser(FindOneUserDto) returns (User) {}
+    rpc UpdateUser(UpdateUserDto) returns (User) {}
+    rpc RemoveUser (FindOneUserDto) returns (User) {}
+    rpc QueryUsers (stream PaginationDto) returns (stream UserList) {}
+}
+
+message PaginationDto {
+    int32 page = 1;
+    int32 skip = 2;
+  }
+
+message UpdateUserDto {
+    string id = 1;
+    SocialMedia socialMedia = 2;
+  }
+
+message CreateUserDto {
+    string username = 1;
+    string email = 2;
+    string role = 3;
+    int32 age = 4;
+}
+
+message FindOneUserDto {
+    string id = 1;
+}
+
+message UserList {
+    repeated User users = 1;
+}
+
+message User {
+    string id = 1;
+    string username = 2;
+    string email = 3;
+    string role = 4;
+    int32 age = 5;
+    bool subscribed = 6;
+    SocialMedia socialMedia = 7;
+}
+
+message SocialMedia {
+    optional string twitterUri = 1;
+    optional string fbUri = 2;
+}
+
+message Empty {}
