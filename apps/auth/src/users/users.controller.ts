@@ -1,35 +1,42 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import {
+  CreateUserDto,
+  FindOneUserDto,
+  PaginationDto,
+  UpdateUserDto,
+  UserList,
+  UserServiceController,
+  UserServiceControllerMethods,
+} from '@app/common';
+import { Payload } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
 
 @Controller()
-export class UsersController {
+@UserServiceControllerMethods()
+export class UsersController implements UserServiceController {
   constructor(private readonly usersService: UsersService) {}
-
-  @MessagePattern('createUser')
-  create(@Payload() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  createUser(@Payload() createUserDto: CreateUserDto) {
+    return this.usersService.createUser(createUserDto);
   }
 
-  @MessagePattern('findAllUsers')
-  findAll() {
-    return this.usersService.findAll();
+  findAllUsers() {
+    return this.usersService.findAllUsers();
   }
 
-  @MessagePattern('findOneUser')
-  findOne(@Payload() id: number) {
-    return this.usersService.findOne(id);
+  findOneUser(@Payload() dto: FindOneUserDto) {
+    return this.usersService.findOneUser(dto);
   }
 
-  @MessagePattern('updateUser')
-  update(@Payload() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(updateUserDto.id, updateUserDto);
+  updateUser(@Payload() updateUserDto: UpdateUserDto) {
+    return this.usersService.updateUser(updateUserDto);
   }
 
-  @MessagePattern('removeUser')
-  remove(@Payload() id: number) {
-    return this.usersService.remove(id);
+  removeUser(@Payload() dto: FindOneUserDto) {
+    return this.usersService.removeUser(dto);
+  }
+
+  queryUsers(request: Observable<PaginationDto>) {
+    return this.usersService.queryUsers(request);
   }
 }

@@ -10,6 +10,7 @@ async function bootstrap() {
     options: {
       protoPath: join(__dirname, '../auth.proto'),
       package: AUTH,
+      port: 5000,
     },
   });
 
